@@ -1,0 +1,14 @@
+# Code
+*Code/
+!Code/User/settings.json
+dconf/
+goa-1.0
+google-chrome/
+nautilus/
+neofetch/
+obs-studio
+pipewire-media-session
+pulse
+mimeapps.list
+user-dirs.dirs
+user-dirs.locale

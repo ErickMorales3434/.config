@@ -1,0 +1,282 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;==========================================================
+
+[colors]
+;background_bar = #00000000
+background = #000000
+foreground = #45E9F5
+foreground-alt = #FFFFFF
+primary = #FA70FF
+secondary = #F29999
+alert = #FFFFFF
+
+;------------------BARRA SUPERIOR -----------------------
+[bar/bar]
+bottom = false
+monitor = VGA-1
+background = ${colors.background_bar}
+foreground = ${colors.foreground}
+
+;             fonts text
+font-0 = "Roboto:size=11:weight=bold;2"
+;             fonts border bar
+font-1 = "SFMono Nerd Font:style=Solid:pixelsize=50:antialias=true;0"
+;             fonts icons
+font-2 = "Font Awesome 5 Brands:pixelsize=12;1"
+font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=12;1"
+
+wm-restack = bspwm
+override-redirect =false
+fixed-center = false
+width = 98%
+height = 25
+offset-y = 3
+offset-x = 1%
+line-size = 2
+border = 2
+border-color = #ffffff
+
+modules-left =   space menu space bspwm title 
+modules-center =   space date space monitors space player 
+modules-right =  space microfono space pulseaudio space memory space network space xkeyboard keyboard_switch space myscript space 
+
+;------------------BARRA INFERIOR -----------------------
+
+[bar/bar2]
+inherit = bar/bar
+bottom = true
+monitor = VGA-1
+background = ${colors.background_bar}
+foreground = ${colors.foreground}
+
+;             fonts text
+font-0 = "Roboto:size=11:weight=bold;2"
+;             fonts border bar
+font-1 = "SFMono Nerd Font:style=Solid:pixelsize=30:antialias=true;1"
+;             fonts icons
+font-2 = "Font Awesome 5 Brands:pixelsize=12;1"
+font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=12;1"
+
+wm-restack = bspwm
+override-redirect =false
+fixed-center = false
+width = 60%
+height = 22
+offset-y = 3
+offset-x = 20%
+line-size = 2
+
+modules-left =   open space menu space bspwm title close
+modules-center =  open close
+modules-right =  open space microfono space pulseaudio space date space  xkeyboard space myscript space close 
+
+
+;------------------Inicio de modulos -----------------------
+;            
+ 
+
+[module/bspwm]
+type = internal/bspwm
+pin-workspaces = true
+
+enable-click = true
+enable-scroll = true
+
+label-active = %name%
+label-active-underline= #CB00FF
+label-active-padding = 2
+label-active-foreground = ${colors.primary}
+label-active-background = ${colors.background}
+
+label-occupied = %name% 
+label-occupied-foreground = ${colors.secondary}
+label-occupied-background = ${colors.background}
+label-occupied-padding = 2
+
+label-urgent = %name%
+label-urgent-padding = 2
+label-urgent-foreground = ${colors.alert}
+label-urgent-background = ${colors.background}
+
+label-empty = %name%
+label-empty-padding = 2
+label-empty-foreground = ${colors.foreground}
+label-empty-background = ${colors.background}
+;---------------------------------------------------------------------
+
+[module/space]
+type = custom/text
+content-font = 0
+content = "  "
+content-background = ${colors.background}
+
+
+[module/close]
+type = custom/text
+content = "◤"
+content-font = 1
+content-foreground = ${colors.background}
+;content-background = ${colors.background}
+
+[module/open]
+type = custom/text
+content = "◢" 
+content-font = 1
+content-padding = 0
+content-foreground = ${colors.background}
+;content-background = ${colors.background}
+
+
+[module/microfono]
+type = custom/script
+exec = $HOME/.config/polybar/scripts/micro.bash
+tail = true
+format = <label>
+label = %output%
+format-background = ${colors.background}
+click-left = amixer set Capture toggle 
+
+[module/pulseaudio]
+type = internal/pulseaudio
+sink = alsa_output.pci-0000_12_00.3.analog-stereo
+use-ui-max = false
+interval = 2
+format-volume = <ramp-volume> <label-volume>
+format-volume-background = ${colors.background}
+format-volume-foreground = #F7F7F7
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+label-muted =   mute
+label-muted-foreground = #FF0000
+label-muted-background = ${colors.background}
+
+[module/xkeyboard]
+type = internal/xkeyboard
+format = <label-layout>
+label-layout =  %icon%
+label-layout-font = 0
+label-layout-padding = 1
+label-layout-background = ${colors.background}
+label-layout-foreground = #0DF205
+layout-icon-0 = latam;LAT
+layout-icon-1 = us;US
+click-left = setxkbmap latam
+
+
+[module/keyboard_switch]
+type=custom/text
+content = 
+interval = 3
+click-left = setxkbmap latam
+click-right = setxkbmap us
+;click-middle = 
+content-font = 0
+content-margin = 0
+content-background = ${colors.background}
+content-foreground = #0DF205
+
+[module/date]
+type = internal/date
+; Seconds to sleep between updates
+interval = 1.0
+format = <label>
+date = %d-%m-%Y%
+time = %H:%M
+format-background = ${colors.background}
+format-foreground = #FFD0CA
+label =  %date%   %time%
+label-font = 0
+
+[module/myscript]
+type=custom/text
+content = 
+content-font = 0
+content-margin = 0
+click-left=clearine
+content-background = ${colors.background}
+content-foreground = #BF045B
+
+[module/menu]
+type=custom/text
+content = ""  
+click-left= rofi -modi run -show drun -show-icons \-config $HOME/.config/rofi/config.rasi
+content-foreground = #898F9D
+content-background = ${colors.background}
+
+
+[module/title]
+type = internal/xwindow
+format = <label>
+format-font = 0
+format-background = ${colors.background}
+format-foreground = #C8F9FE
+format-padding = 2
+label = || %title%
+label-maxlen = 30
+label-empty = Empty
+label-empty-foreground = #707880
+
+
+[module/network]
+type = internal/network
+interface = enp3s0
+format-font = 0
+label-connected = NET %downspeed% 
+label-connected-background = ${colors.background}
+label-connected-foreground = #EFD5FA
+label-disconnected = not connected
+label-disconnected-foreground = #FF0000
+label-disconnected-background = ${colors.background}
+
+[module/memory]
+type = internal/memory
+interval = 1
+label = RAM %gb_used%
+label-background = ${colors.background}
+label-foreground = #FEFAE1
+
+[module/player]
+type = custom/script
+exec = $HOME/.config/polybar/scripts/musica.sh
+interval = 3
+click-left = playerctl previous &
+click-right = playerctl next &
+click-middle = playerctl play-pause &
+format = <label>
+label-maxlen = 30
+label = %output%
+format-background = ${colors.background}
+format-foreground = #898F9D
+
+[module/monitors]
+type = custom/script
+exec = xrandr --listactivemonitors | grep -c 0
+internal = 3
+click-right = xrandr --output HDMI-1 --off 
+click-left = xrandr --output HDMI-1 --auto --right-of VGA-1 --rotate normal
+format =   <label>
+label = %output%
+format-background = ${colors.background}
+format-foreground = #A0EDFF
+
+
+[settings]   
+pseudo-transparency = true
+screenchange-reload = true
+
+[global/wm]
+margin-top = 1
+margin-bottom = 1
+
+
