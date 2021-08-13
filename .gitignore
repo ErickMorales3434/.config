@@ -1,10 +1,9 @@
-Code/*
-!Code/User/settings.json
-dconf/
+Code
+dconf
 goa-1.0
-google-chrome/
-nautilus/
-neofetch/
+google-chrome
+nautilus
+neofetch
 obs-studio
 pipewire-media-session
 pulse
